@@ -1,0 +1,36 @@
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { User, onAuthStateChanged } from 'firebase/auth';
+import { auth, handleFirestoreError, OperationType } from '../lib/firebase';
+
+interface AuthContextType {
+  user: User | null;
+  loading: boolean;
+}
+
+const AuthContext = createContext<AuthContextType>({ user: null, loading: true });
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (u) => {
+      setUser(u);
+      setLoading(false);
+    }, (error) => {
+      // It's not a Firestore error per se, but handled for auth state error
+      setLoading(false);
+    });
+    return unsubscribe;
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ user, loading }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  return useContext(AuthContext);
+}

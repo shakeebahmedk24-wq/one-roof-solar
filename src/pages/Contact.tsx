@@ -1,0 +1,237 @@
+import { FadeIn } from "@/src/components/ui/FadeIn";
+import { Mail, MapPin, Phone, Zap, ArrowRight, MessageSquare } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../lib/firebase";
+
+export function Contact() {
+  const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [pageData, setPageData] = useState<any>(null);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const docRef = doc(db, 'pages', 'contact');
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) setPageData(docSnap.data());
+      } catch (e) {
+        console.error("Error loading CMS data", e);
+      }
+    }
+    loadData();
+  }, []);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newErrors: Record<string, string> = {};
+    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    else if (!/^\S+@\S+\.\S+$/.test(formData.email)) newErrors.email = "Invalid email format";
+    if (!formData.subject.trim()) newErrors.subject = "Subject is required";
+    if (!formData.message.trim()) newErrors.message = "Message is required";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+    } else {
+      window.location.href = `mailto:info@oneroofsolar.com.au?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent("Name: " + formData.name + "\nEmail: " + formData.email + "\n\nMessage:\n" + formData.message)}`;
+      setErrors({});
+      setIsSubmitted(true);
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      }, 3000);
+    }
+  };
+
+  return (
+    <div className="pt-32 pb-32 overflow-hidden bg-slate-50 min-h-screen">
+      {/* Hero Section */}
+      <section className="relative pt-20 pb-20 lg:pt-32 lg:pb-32 overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-brand-100/50 via-slate-50 to-slate-50 -z-0 pointer-events-none"></div>
+        </div>
+        
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          <FadeIn isHero>
+            <div className="inline-flex items-center gap-2 px-4 py-2 text-brand-600 font-bold text-sm mb-8 border border-brand-200 bg-brand-50 rounded-full uppercase tracking-widest shadow-sm">
+              <Zap className="w-4 h-4" />
+              {pageData?.title || 'Support Online'}
+            </div>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-slate-900 tracking-tighter leading-tight mb-8">
+              {pageData?.heroTitle ? (
+                <span dangerouslySetInnerHTML={{ __html: pageData.heroTitle }} />
+              ) : (
+                <>Let's Get In <span className="text-brand-500">Touch.</span></>
+              )}
+            </h1>
+            <p className="max-w-2xl mx-auto text-xl text-slate-600 font-medium leading-relaxed mb-6 whitespace-pre-line">
+              {pageData?.content || 'Ready to start saving on your energy bills? Our Darwin-based solar experts are here to answer your questions and provide a free, no-obligation quote.\n\nReady to harness the power of the sun? Our team of experts is here to help you design the perfect solar ecosystem for your home.'}
+            </p>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* Info Cards Grid */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-4 relative z-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <FadeIn delay={0.1}>
+             <div className="bg-white rounded-[2rem] p-8 border border-slate-200 hover:border-brand-300 hover:shadow-xl shadow-md transition-all duration-300 h-full group relative overflow-hidden text-center">
+               <div className="absolute top-0 right-0 w-32 h-32 bg-brand-50 rounded-full blur-[40px] -mr-10 -mt-10 transition-transform duration-700 group-hover:scale-150"></div>
+               <div className="w-14 h-14 bg-brand-50 rounded-2xl flex items-center justify-center text-brand-500 mb-6 mx-auto group-hover:bg-brand-500 group-hover:text-white transition-colors">
+                  <Mail className="w-7 h-7" />
+               </div>
+               <h3 className="text-slate-500 text-sm font-bold uppercase tracking-widest mb-2">Email Us</h3>
+               <div className="text-xl font-black text-slate-900 tracking-tight">info@oneroofsolar.com.au</div>
+             </div>
+          </FadeIn>
+          
+          <FadeIn delay={0.2}>
+             <div className="bg-white rounded-[2rem] p-8 border border-slate-200 hover:border-brand-300 hover:shadow-xl shadow-md transition-all duration-300 h-full group relative overflow-hidden text-center">
+               <div className="absolute top-0 right-0 w-32 h-32 bg-brand-50 rounded-full blur-[40px] -mr-10 -mt-10 transition-transform duration-700 group-hover:scale-150"></div>
+               <div className="w-14 h-14 bg-brand-50 rounded-2xl flex items-center justify-center text-brand-500 mb-6 mx-auto group-hover:bg-brand-500 group-hover:text-white transition-colors">
+                  <Phone className="w-7 h-7" />
+               </div>
+               <h3 className="text-slate-500 text-sm font-bold uppercase tracking-widest mb-2">Call Us</h3>
+               <div className="text-xl font-black text-slate-900 tracking-tight">0419587429</div>
+             </div>
+          </FadeIn>
+
+          <FadeIn delay={0.3}>
+             <div className="bg-white rounded-[2rem] p-8 border border-slate-200 hover:border-brand-300 hover:shadow-xl shadow-md transition-all duration-300 h-full group relative overflow-hidden text-center">
+               <div className="absolute top-0 right-0 w-32 h-32 bg-brand-50 rounded-full blur-[40px] -mr-10 -mt-10 transition-transform duration-700 group-hover:scale-150"></div>
+               <div className="w-14 h-14 bg-brand-50 rounded-2xl flex items-center justify-center text-brand-500 mb-6 mx-auto group-hover:bg-brand-500 group-hover:text-white transition-colors">
+                  <MapPin className="w-7 h-7" />
+               </div>
+               <h3 className="text-slate-500 text-sm font-bold uppercase tracking-widest mb-2">Visit Us</h3>
+               <div className="text-lg font-black text-slate-900 tracking-tight leading-tight">123 Solar Way<br/>Darwin NT 0820</div>
+             </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* Form Section */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+           {/* Left side info */}
+           <FadeIn>
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-8 tracking-tighter uppercase">Send a <span className="text-brand-500">Message</span>.</h2>
+              <p className="text-slate-600 text-lg mb-12 font-medium">
+                Whether you have a question about features, pricing, or anything else, our team is ready to answer all your questions.
+              </p>
+
+              <div className="space-y-8">
+                <div className="flex gap-4 items-start">
+                  <div className="w-12 h-12 rounded-full bg-brand-50 flex items-center justify-center text-brand-500 shrink-0 mt-1 border border-brand-100">
+                    <MessageSquare className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-slate-900 font-black text-xl mb-2">Expert Advice</h4>
+                    <p className="text-slate-600 font-medium leading-relaxed">Speak directly with solar engineers, not salespeople. We design systems that make sense for your roof.</p>
+                  </div>
+                </div>
+                
+                <div className="flex gap-4 items-start">
+                  <div className="w-12 h-12 rounded-full bg-brand-50 flex items-center justify-center text-brand-500 shrink-0 mt-1 border border-brand-100">
+                    <Zap className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-slate-900 font-black text-xl mb-2">Fast Response</h4>
+                    <p className="text-slate-600 font-medium leading-relaxed">We aim to respond to all inquiries within 24 hours. Emergency support available for existing customers.</p>
+                  </div>
+                </div>
+              </div>
+           </FadeIn>
+
+           {/* Form Side */}
+           <FadeIn delay={0.2}>
+              <div className="bg-white p-8 md:p-12 rounded-[2.5rem] border border-slate-200 shadow-xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-50 rounded-full blur-[100px] pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
+                
+                <form className="relative z-10 space-y-6" onSubmit={handleSubmit}>
+                  {isSubmitted && (
+                    <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 p-4 rounded-xl text-sm font-bold flex items-center gap-3">
+                      <Zap className="w-5 h-5" />
+                      Transmission successful. We will contact you shortly.
+                    </div>
+                  )}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Name</label>
+                      <input 
+                        type="text" 
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className={`w-full bg-slate-50 border ${errors.name ? 'border-red-300 focus:border-red-500' : 'border-slate-200 focus:border-brand-500'} px-6 py-4 rounded-xl text-slate-900 focus:ring-2 focus:ring-brand-500/20 outline-none placeholder:text-slate-400 transition-all font-medium`}
+                        placeholder="John Doe"
+                      />
+                      {errors.name && <p className="text-red-500 text-xs mt-1 ml-1 font-bold">{errors.name}</p>}
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Email</label>
+                      <input 
+                        type="email" 
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        className={`w-full bg-slate-50 border ${errors.email ? 'border-red-300 focus:border-red-500' : 'border-slate-200 focus:border-brand-500'} px-6 py-4 rounded-xl text-slate-900 focus:ring-2 focus:ring-brand-500/20 outline-none placeholder:text-slate-400 transition-all font-medium`}
+                        placeholder="john@example.com"
+                      />
+                      {errors.email && <p className="text-red-500 text-xs mt-1 ml-1 font-bold">{errors.email}</p>}
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Subject</label>
+                    <input 
+                      type="text" 
+                      value={formData.subject}
+                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                      className={`w-full bg-slate-50 border ${errors.subject ? 'border-red-300 focus:border-red-500' : 'border-slate-200 focus:border-brand-500'} px-6 py-4 rounded-xl text-slate-900 focus:ring-2 focus:ring-brand-500/20 outline-none placeholder:text-slate-400 transition-all font-medium`}
+                      placeholder="System Inquiry"
+                    />
+                    {errors.subject && <p className="text-red-500 text-xs mt-1 ml-1 font-bold">{errors.subject}</p>}
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Message</label>
+                    <textarea 
+                      rows={5}
+                      value={formData.message}
+                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                      className={`w-full bg-slate-50 border ${errors.message ? 'border-red-300 focus:border-red-500' : 'border-slate-200 focus:border-brand-500'} px-6 py-4 rounded-xl text-slate-900 focus:ring-2 focus:ring-brand-500/20 outline-none placeholder:text-slate-400 transition-all font-medium resize-none`}
+                      placeholder="How can we help you power the future?"
+                    ></textarea>
+                    {errors.message && <p className="text-red-500 text-xs mt-1 ml-1 font-bold">{errors.message}</p>}
+                  </div>
+                  
+                  <button 
+                    type="submit" 
+                    disabled={isSubmitted}
+                    className={`w-full py-4 text-white font-bold uppercase tracking-widest rounded-xl flex items-center justify-center gap-2 group transition-all duration-300 ${isSubmitted ? 'bg-slate-400 cursor-not-allowed' : 'bg-brand-500 hover:bg-brand-600 hover:-translate-y-1 shadow-lg shadow-brand-500/20'}`}
+                  >
+                    {isSubmitted ? 'Transmitting...' : 'Initialize Contact'}
+                    {!isSubmitted && <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />}
+                  </button>
+                </form>
+              </div>
+           </FadeIn>
+        </div>
+      </section>
+
+      {/* Map Section */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-24">
+        <FadeIn delay={0.3}>
+          <div className="h-[400px] w-full rounded-[2.5rem] overflow-hidden border border-slate-200 shadow-xl relative group">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3896.790479133863!2d130.86729011481977!3d-12.433947291211186!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2cc0a12e176d6545%3A0x501a3501a1bdc90!2sWinnellie%20NT%200820%2C%20Australia!5e0!3m2!1sen!2sus!4v1689260783100!5m2!1sen!2sus" 
+              style={{ border: 0 }} 
+              allowFullScreen={true} 
+              loading="lazy"
+              title="Office Location Map"
+              className="absolute inset-0 w-full h-full grayscale-[50%] contrast-[1.1] opacity-90 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
+            ></iframe>
+          </div>
+        </FadeIn>
+      </section>
+    </div>
+  );
+}
