@@ -17,6 +17,18 @@ export function LeadPopup() {
   }, []);
 
   useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
     // Inject the GHL form script if it's not already in the document
     if (isOpen) {
       const scriptId = "ghl-form-script";
