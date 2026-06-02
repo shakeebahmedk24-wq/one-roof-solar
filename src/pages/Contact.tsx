@@ -17,10 +17,20 @@ export function Contact() {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) setPageData(docSnap.data());
       } catch (e) {
-        console.error("Error loading CMS data", e);
+        console.warn("Using offline fallback data for CMS");
       }
     }
     loadData();
+
+    // Inject the GHL form script if it's not already in the document
+    const scriptId = "ghl-form-script";
+    if (!document.getElementById(scriptId)) {
+      const script = document.createElement("script");
+      script.id = scriptId;
+      script.src = "https://link.oneroofsolar.com.au/js/form_embed.js";
+      script.async = true;
+      document.body.appendChild(script);
+    }
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -94,7 +104,7 @@ export function Contact() {
                   <Phone className="w-7 h-7" />
                </div>
                <h3 className="text-slate-500 text-sm font-bold uppercase tracking-widest mb-2">Call Us</h3>
-               <div className="text-xl font-black text-slate-900 tracking-tight">0419587429</div>
+               <div className="text-xl font-black text-slate-900 tracking-tight">0483986444</div>
              </div>
           </FadeIn>
 
@@ -149,69 +159,25 @@ export function Contact() {
               <div className="bg-white p-8 md:p-12 rounded-[2.5rem] border border-slate-200 shadow-xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-50 rounded-full blur-[100px] pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
                 
-                <form className="relative z-10 space-y-6" onSubmit={handleSubmit}>
-                  {isSubmitted && (
-                    <div className="bg-emerald-50 border border-emerald-200 text-emerald-700 p-4 rounded-xl text-sm font-bold flex items-center gap-3">
-                      <Zap className="w-5 h-5" />
-                      Transmission successful. We will contact you shortly.
-                    </div>
-                  )}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Name</label>
-                      <input 
-                        type="text" 
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className={`w-full bg-slate-50 border ${errors.name ? 'border-red-300 focus:border-red-500' : 'border-slate-200 focus:border-brand-500'} px-6 py-4 rounded-xl text-slate-900 focus:ring-2 focus:ring-brand-500/20 outline-none placeholder:text-slate-400 transition-all font-medium`}
-                        placeholder="John Doe"
-                      />
-                      {errors.name && <p className="text-red-500 text-xs mt-1 ml-1 font-bold">{errors.name}</p>}
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Email</label>
-                      <input 
-                        type="email" 
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className={`w-full bg-slate-50 border ${errors.email ? 'border-red-300 focus:border-red-500' : 'border-slate-200 focus:border-brand-500'} px-6 py-4 rounded-xl text-slate-900 focus:ring-2 focus:ring-brand-500/20 outline-none placeholder:text-slate-400 transition-all font-medium`}
-                        placeholder="john@example.com"
-                      />
-                      {errors.email && <p className="text-red-500 text-xs mt-1 ml-1 font-bold">{errors.email}</p>}
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Subject</label>
-                    <input 
-                      type="text" 
-                      value={formData.subject}
-                      onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                      className={`w-full bg-slate-50 border ${errors.subject ? 'border-red-300 focus:border-red-500' : 'border-slate-200 focus:border-brand-500'} px-6 py-4 rounded-xl text-slate-900 focus:ring-2 focus:ring-brand-500/20 outline-none placeholder:text-slate-400 transition-all font-medium`}
-                      placeholder="System Inquiry"
-                    />
-                    {errors.subject && <p className="text-red-500 text-xs mt-1 ml-1 font-bold">{errors.subject}</p>}
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-slate-500 uppercase tracking-widest pl-1">Message</label>
-                    <textarea 
-                      rows={5}
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      className={`w-full bg-slate-50 border ${errors.message ? 'border-red-300 focus:border-red-500' : 'border-slate-200 focus:border-brand-500'} px-6 py-4 rounded-xl text-slate-900 focus:ring-2 focus:ring-brand-500/20 outline-none placeholder:text-slate-400 transition-all font-medium resize-none`}
-                      placeholder="How can we help you power the future?"
-                    ></textarea>
-                    {errors.message && <p className="text-red-500 text-xs mt-1 ml-1 font-bold">{errors.message}</p>}
-                  </div>
-                  
-                  <button 
-                    type="submit" 
-                    disabled={isSubmitted}
-                    className={`w-full py-4 text-white font-bold uppercase tracking-widest rounded-xl flex items-center justify-center gap-2 group transition-all duration-300 ${isSubmitted ? 'bg-slate-400 cursor-not-allowed' : 'bg-brand-500 hover:bg-brand-600 hover:-translate-y-1 shadow-lg shadow-brand-500/20'}`}
-                  >
-                    {isSubmitted ? 'Transmitting...' : 'Initialize Contact'}
-                    {!isSubmitted && <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />}
-                  </button>
-                </form>
+                <div className="w-full relative bg-transparent rounded-xl overflow-hidden" style={{ minHeight: "552px" }}>
+                  <iframe
+                    src="https://link.oneroofsolar.com.au/widget/form/3uXInokjWftJSJgePj2x"
+                    style={{ width: "100%", height: "100%", border: "none", borderRadius: "8px", minHeight: "552px" }}
+                    id="inline-3uXInokjWftJSJgePj2x" 
+                    data-layout="{'id':'INLINE'}"
+                    data-trigger-type="alwaysShow"
+                    data-trigger-value=""
+                    data-activation-type="alwaysActivated"
+                    data-activation-value=""
+                    data-deactivation-type="neverDeactivate"
+                    data-deactivation-value=""
+                    data-form-name="Contact Us "
+                    data-height="552"
+                    data-layout-iframe-id="inline-3uXInokjWftJSJgePj2x"
+                    data-form-id="3uXInokjWftJSJgePj2x"
+                    title="Contact Us "
+                  ></iframe>
+                </div>
               </div>
            </FadeIn>
         </div>

@@ -66,7 +66,7 @@ export function Navbar() {
         >
           <div className="flex items-center gap-2">
             <Link to="/" className="flex items-center gap-2 relative z-50">
-              <img loading="lazy" 
+              <img 
                 src={scrolled || isOpen || (!scrolled && location.pathname !== "/" && !location.pathname.startsWith('/services')) ? "https://i.postimg.cc/L5Dz2v9y/p-HEv-R-removebg-preview.png" : "https://i.postimg.cc/brNtCpzP/RMM02-removebg-preview-(1).png"}
                 alt="Oneroof Solar Logo" 
                 className={`${scrolled ? "h-10 md:h-12" : "h-14 md:h-16"} w-auto transition-all duration-500`} 

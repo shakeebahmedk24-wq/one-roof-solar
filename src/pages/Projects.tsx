@@ -235,7 +235,7 @@ export default function Projects() {
                 <Link to="/contact">Get Your Free Quote <ArrowRight className="ml-2 w-5 h-5" /></Link>
               </Button>
               <Button size="lg" variant="outline" className="rounded-full h-16 px-10 text-lg font-bold border-brand-500 text-brand-600 hover:bg-brand-50 hover:-translate-y-1 transition-all" asChild>
-                <a href="tel:0419587429">Call Us 0419587429</a>
+                <a href="tel:0483986444">Call Us 0483986444</a>
               </Button>
             </div>
           </FadeIn>

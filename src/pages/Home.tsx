@@ -50,7 +50,7 @@ export function Home() {
            setServicesData(servicesSnap.docs.map(d => ({ id: d.id, ...d.data() })));
         }
       } catch (e) {
-        console.error("Error loading CMS data", e);
+        console.warn("Using offline fallback data for CMS");
       }
     }
     loadData();
@@ -346,7 +346,7 @@ export function Home() {
                   <Button size="lg" className="rounded-full h-12 px-8 text-base">{sd?.whyChooseUs?.ctaText || "Get Your Free Quote"}</Button>
                 </Link>
                 <Button size="lg" variant="outline" className="rounded-full h-12 px-8 text-base font-bold text-slate-700 border-slate-200 hover:bg-slate-50" asChild>
-                  <a href="tel:0419587429">Call Us 0419587429</a>
+                  <a href="tel:0483986444">Call Us 0483986444</a>
                 </Button>
               </div>
             </FadeIn>
@@ -666,7 +666,7 @@ export function Home() {
                   <Link to="/contact">Get a Free Quote</Link>
                 </Button>
                 <Button size="lg" variant="outline" className="rounded-full h-14 px-8 font-bold text-base border-white/20 text-white bg-transparent hover:bg-white/10 transition-all hover:scale-105" asChild>
-                  <a href="tel:0419587429">Call Us 0419587429</a>
+                  <a href="tel:0483986444">Call Us 0483986444</a>
                 </Button>
               </div>
             </FadeIn>
@@ -885,8 +885,8 @@ export function Home() {
                   <Button size="lg" className="rounded-full w-full h-16 text-lg font-bold bg-gradient-to-r from-brand-500 to-emerald-500 hover:from-brand-500 hover:to-emerald-500 text-slate-900 shadow-[0_0_40px_rgba(140,198,63,0.3)] hover:shadow-[0_0_60px_rgba(140,198,63,0.4)] transition-all hover:-translate-y-1" asChild>
                     <Link to="/contact">Book Free Consultation <ArrowRight className="ml-2 w-6 h-6" /></Link>
                   </Button>
-                  <a href="tel:0419587429" className="inline-flex items-center justify-center rounded-full w-full h-16 text-lg font-bold border-2 border-white/20 text-white hover:bg-transparent hover:text-white hover:border-white/20 backdrop-blur-sm transition-all shadow-sm">
-                    Call Us: 0419587429
+                  <a href="tel:0483986444" className="inline-flex items-center justify-center rounded-full w-full h-16 text-lg font-bold border-2 border-white/20 text-white hover:bg-transparent hover:text-white hover:border-white/20 backdrop-blur-sm transition-all shadow-sm">
+                    Call Us: 0483986444
                   </a>
                   <p className="text-slate-500 text-sm font-medium text-center mt-2">
                     No obligations. 100% free quote.

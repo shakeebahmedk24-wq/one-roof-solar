@@ -14,7 +14,7 @@ export function Footer() {
           {/* Brand & Description */}
           <div className="lg:col-span-4">
             <Link to="/" className="inline-block mb-8">
-              <img loading="lazy" 
+              <img 
                 src="https://i.postimg.cc/HsY3J87K/I69ro-removebg-preview.png" 
                 alt="Oneroof Solar Logo" 
                 className="h-[55px] w-auto opacity-90 transition-opacity hover:opacity-100" 
@@ -83,7 +83,7 @@ export function Footer() {
                 <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center flex-shrink-0 border border-slate-700">
                   <Phone className="h-4 w-4 text-brand-400" />
                 </div>
-                <a href="tel:0419587429" className="text-slate-400 hover:text-brand-400 transition-colors font-medium">0419587429</a>
+                <a href="tel:0483986444" className="text-slate-400 hover:text-brand-400 transition-colors font-medium">0483986444</a>
               </li>
               <li className="flex items-center gap-4">
                 <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center flex-shrink-0 border border-slate-700">

@@ -344,12 +344,11 @@ function DarkProducts({ service, slug }: { service: any; slug: string }) {
                 <div className="absolute top-0 right-0 w-64 h-64 bg-brand-500/10 rounded-full blur-[80px] -mr-10 -mt-10 transition-transform duration-700 group-hover:scale-150 group-hover:bg-brand-500/20 z-0"></div>
 
                 <div className="relative z-10 flex flex-col h-full">
-                  <div className="h-48 sm:h-56 mb-8 rounded-2xl overflow-hidden bg-black/50 border border-white/5 relative group-hover:border-white/10 transition-colors duration-500 flex items-center justify-center p-4">
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent z-10 pointer-events-none"></div>
+                  <div className="h-64 sm:h-[320px] mb-8 rounded-2xl overflow-hidden bg-white/5 border border-white/10 relative group-hover:border-white/20 transition-colors duration-500 flex items-center justify-center p-2">
                     <img loading="lazy"
                       src={product.image}
                       alt={product.title}
-                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100 z-0 drop-shadow-2xl"
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700 opacity-100 z-0 drop-shadow-2xl"
                     />
                   </div>
 
@@ -524,7 +523,7 @@ function DarkBenefits({ service, slug }: { service: any; slug: string }) {
   );
 }
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { FadeIn } from "@/src/components/ui/FadeIn";
 import { PackagesSection } from "@/src/components/PackagesSection";
@@ -1253,12 +1252,11 @@ function EvChargerProducts({ service }: { service: any }) {
                 <div className="absolute top-0 right-0 w-64 h-64 bg-brand-500/10 rounded-full blur-[80px] -mr-10 -mt-10 transition-transform duration-700 group-hover:scale-150 group-hover:bg-brand-500/20 z-0"></div>
 
                 <div className="relative z-10 flex flex-col h-full">
-                  <div className="h-48 sm:h-56 mb-8 rounded-2xl overflow-hidden bg-black/50 border border-white/5 relative group-hover:border-white/10 transition-colors duration-500 flex items-center justify-center p-4">
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent z-10 pointer-events-none"></div>
+                  <div className="h-64 sm:h-[320px] mb-8 rounded-2xl overflow-hidden bg-white/5 border border-white/10 relative group-hover:border-white/20 transition-colors duration-500 flex items-center justify-center p-2">
                     <img loading="lazy"
                       src={product.image}
                       alt={product.title}
-                      className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 opacity-80 group-hover:opacity-100 z-0 drop-shadow-2xl"
+                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700 opacity-100 z-0 drop-shadow-2xl"
                     />
                   </div>
 
@@ -1372,6 +1370,18 @@ function EvChargerBenefits({ service }: { service: any }) {
 export function ServiceDetail() {
   const { slug } = useParams<{ slug: string }>();
 
+  useEffect(() => {
+    // Inject the GHL form script if it's not already in the document
+    const scriptId = "ghl-form-script";
+    if (!document.getElementById(scriptId)) {
+      const script = document.createElement("script");
+      script.id = scriptId;
+      script.src = "https://link.oneroofsolar.com.au/js/form_embed.js";
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  }, []);
+
   const service =
     slug && servicesData[slug] ? servicesData[slug] : defaultService;
   const currentSlug = slug || "solar-inverters";
@@ -1429,7 +1439,7 @@ export function ServiceDetail() {
                     className="rounded-full px-8 text-white border-white/20 font-bold hover:bg-white/10 transition-all h-14 hover:-translate-y-1"
                     asChild
                   >
-                    <a href="tel:0419587429">Call Us 0419587429</a>
+                    <a href="tel:0483986444">Call Us 0483986444</a>
                   </Button>
                   <div className="flex items-center gap-4 text-white text-sm font-semibold px-4">
                     <div className="flex -space-x-3">
@@ -1886,58 +1896,25 @@ export function ServiceDetail() {
                   We will get back to you within one business day.
                 </p>
 
-                <form
-                  className="space-y-5"
-                  onSubmit={(e) => e.preventDefault()}
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <input
-                      type="text"
-                      placeholder="First Name"
-                      className="w-full px-5 py-4 rounded-xl border border-white/10 bg-slate-900/50 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Last Name"
-                      className="w-full px-5 py-4 rounded-xl border border-white/10 bg-slate-900/50 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all"
-                    />
-                  </div>
-                  <input
-                    type="email"
-                    placeholder="Email Address*"
-                    required
-                    className="w-full px-5 py-4 rounded-xl border border-white/10 bg-slate-900/50 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all"
-                  />
-                  <input
-                    type="tel"
-                    placeholder="Phone Number*"
-                    required
-                    className="w-full px-5 py-4 rounded-xl border border-white/10 bg-slate-900/50 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all"
-                  />
-                  <select
-                    className="w-full px-5 py-4 rounded-xl border border-white/10 bg-slate-900/50 text-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all appearance-none"
-                    defaultValue=""
-                  >
-                    <option value="" disabled>
-                      Select a Service
-                    </option>
-                    <option value={service.title}>{service.title}</option>
-                    <option value="General Inquiry">General Inquiry</option>
-                  </select>
-
-                  <textarea
-                    placeholder="Tell us about your property..."
-                    rows={4}
-                    className="w-full px-5 py-4 rounded-xl border border-white/10 bg-slate-900/50 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all resize-none"
-                  ></textarea>
-
-                  <Button
-                    type="submit"
-                    className="w-full bg-brand-500 hover:bg-brand-400 text-slate-900 font-bold text-lg py-7 rounded-xl transition-all shadow-[0_0_20px_rgba(140,198,63,0.3)] hover:-translate-y-1 mt-4"
-                  >
-                    Get Free Quote
-                  </Button>
-                </form>
+                <div className="w-full relative bg-transparent rounded-xl overflow-hidden" style={{ minHeight: "552px" }}>
+                  <iframe
+                    src="https://link.oneroofsolar.com.au/widget/form/3uXInokjWftJSJgePj2x"
+                    style={{ width: "100%", height: "100%", border: "none", borderRadius: "8px", minHeight: "552px" }}
+                    id="inline-3uXInokjWftJSJgePj2x" 
+                    data-layout="{'id':'INLINE'}"
+                    data-trigger-type="alwaysShow"
+                    data-trigger-value=""
+                    data-activation-type="alwaysActivated"
+                    data-activation-value=""
+                    data-deactivation-type="neverDeactivate"
+                    data-deactivation-value=""
+                    data-form-name="Contact Us "
+                    data-height="552"
+                    data-layout-iframe-id="inline-3uXInokjWftJSJgePj2x"
+                    data-form-id="3uXInokjWftJSJgePj2x"
+                    title="Contact Us "
+                  ></iframe>
+                </div>
               </div>
             </div>
           </div>

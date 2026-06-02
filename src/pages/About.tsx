@@ -17,7 +17,7 @@ export function About() {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) setPageData(docSnap.data());
       } catch (e) {
-        console.error("Error loading CMS data", e);
+        console.warn("Using offline fallback data for CMS");
       }
     }
     loadData();
@@ -198,7 +198,7 @@ export function About() {
                 <Link to="/contact">Get Your Free Quote</Link>
               </Button>
               <Button size="lg" variant="outline" className="h-14 px-8 text-lg font-bold rounded-full w-full sm:w-auto border-white/20 text-white hover:bg-white/10" asChild>
-                <a href="tel:0419587429">Call Us 0419587429</a>
+                <a href="tel:0483986444">Call Us 0483986444</a>
               </Button>
             </div>
           </div>
